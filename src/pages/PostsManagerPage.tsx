@@ -29,6 +29,7 @@ import {
 // TODO: 임시로 분리한 컴포넌트
 import { userModal } from "../components/userModal"
 import { postDetailDialog } from "../components/postDetailDialog"
+import { updateCommentDialog } from "../components/updateCommentDialog"
 
 const PostsManager = () => {
   const navigate = useNavigate()
@@ -596,21 +597,13 @@ const PostsManager = () => {
       </Dialog>
 
       {/* 댓글 수정 대화상자 */}
-      <Dialog open={showEditCommentDialog} onOpenChange={setShowEditCommentDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>댓글 수정</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Textarea
-              placeholder="댓글 내용"
-              value={selectedComment?.body || ""}
-              onChange={(e) => setSelectedComment({ ...selectedComment, body: e.target.value })}
-            />
-            <Button onClick={updateComment}>댓글 업데이트</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {updateCommentDialog({
+        showEditCommentDialog,
+        setShowEditCommentDialog,
+        selectedComment,
+        setSelectedComment,
+        updateComment,
+      })}
 
       {/* 게시물 상세 보기 대화상자 */}
       {postDetailDialog({
