@@ -27,8 +27,8 @@ import {
 } from "../shared/ui"
 
 // TODO: 임시로 분리한 컴포넌트
-import { renderComments } from "../components/renderComments"
 import { userModal } from "../components/userModal"
+import { postDetailDialog } from "../components/postDetailDialog"
 
 const PostsManager = () => {
   const navigate = useNavigate()
@@ -613,28 +613,20 @@ const PostsManager = () => {
       </Dialog>
 
       {/* 게시물 상세 보기 대화상자 */}
-      <Dialog open={showPostDetailDialog} onOpenChange={setShowPostDetailDialog}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle>{highlightText(selectedPost?.title, searchQuery)}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <p>{highlightText(selectedPost?.body, searchQuery)}</p>
-            {renderComments({
-              postId: selectedPost?.id,
-              comments,
-              searchQuery,
-              setShowAddCommentDialog,
-              setNewComment,
-              setSelectedComment,
-              setShowEditCommentDialog,
-              highlightText,
-              likeComment,
-              deleteComment,
-            })}
-          </div>
-        </DialogContent>
-      </Dialog>
+      {postDetailDialog({
+        showPostDetailDialog,
+        setShowPostDetailDialog,
+        selectedPost,
+        comments,
+        searchQuery,
+        setShowAddCommentDialog,
+        setNewComment,
+        setSelectedComment,
+        setShowEditCommentDialog,
+        highlightText,
+        likeComment,
+        deleteComment,
+      })}
 
       {userModal({
         showUserModal,
