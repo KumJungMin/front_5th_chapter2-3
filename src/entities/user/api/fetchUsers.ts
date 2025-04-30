@@ -1,8 +1,4 @@
-export interface User {
-  id: number
-  username: string
-  image: string
-}
+import type { User } from "@/entities/user/model/type"
 
 export const fetchUsers = async (): Promise<User[]> => {
   const res = await fetch("/api/users?limit=0&select=username,image")
