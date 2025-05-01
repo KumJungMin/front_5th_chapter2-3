@@ -1,6 +1,6 @@
 import type { Comment } from "@/entities/comment/model/types"
 
-export const deleteComment = async ({ id }: { id: Comment["id"] }): Promise<Comment> => {
+export const deleteComment = async (id: Comment["id"]): Promise<Comment> => {
   const response = await fetch(`/api/comments/${id}`, {
     method: "DELETE",
   })
