@@ -8,8 +8,8 @@ const queryClient = new QueryClient()
 
 const App = () => {
   return (
-    <Router>
-      <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <Router>
         <div className="flex flex-col min-h-screen">
           <Header />
           <main className="flex-grow container mx-auto px-4 py-8">
@@ -17,8 +17,8 @@ const App = () => {
           </main>
           <Footer />
         </div>
-      </QueryClientProvider>
-    </Router>
+      </Router>
+    </QueryClientProvider>
   )
 }
 
