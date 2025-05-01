@@ -1,48 +1,61 @@
 import { create } from "zustand"
-import { Comment } from "@/entities/comment/model/types"
+import type { Comment } from "@/entities/comment/model/types"
 
 interface CommentStore {
-  commentsByPostId: Record<number, Comment[]>
+  commentsByPost: Record<number, Comment[]>
   selectedComment: Comment | null
 
   setComments: (postId: number, comments: Comment[]) => void
   addComment: (postId: number, comment: Comment) => void
-  updateComment: (postId: number, updated: Comment) => void
+  updateComment: (postId: number, comment: Comment) => void
   deleteComment: (postId: number, commentId: number) => void
-
+  likeComment: (postId: number, commentId: number) => void
   setSelectedComment: (comment: Comment | null) => void
 }
 
 export const useCommentStore = create<CommentStore>((set) => ({
-  commentsByPostId: {},
+  commentsByPost: {},
   selectedComment: null,
 
   setComments: (postId, comments) =>
     set((state) => ({
-      commentsByPostId: { ...state.commentsByPostId, [postId]: comments },
+      commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: comments,
+      },
     })),
 
   addComment: (postId, comment) =>
     set((state) => ({
-      commentsByPostId: {
-        ...state.commentsByPostId,
-        [postId]: [...(state.commentsByPostId[postId] || []), comment],
+      commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: [...(state.commentsByPost[postId] || []), comment],
       },
     })),
 
   updateComment: (postId, updated) =>
     set((state) => ({
-      commentsByPostId: {
-        ...state.commentsByPostId,
-        [postId]: state.commentsByPostId[postId]?.map((c) => (c.id === updated.id ? updated : c)),
+      commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: state.commentsByPost[postId].map((c) => (c.id === updated.id ? updated : c)),
       },
     })),
 
   deleteComment: (postId, commentId) =>
     set((state) => ({
-      commentsByPostId: {
-        ...state.commentsByPostId,
-        [postId]: state.commentsByPostId[postId]?.filter((c) => c.id !== commentId),
+      commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: state.commentsByPost[postId].filter((c) => c.id !== commentId),
+      },
+    })),
+
+  likeComment: (postId, commentId) =>
+    set((state) => ({
+      commentsByPost: {
+        ...state.commentsByPost,
+        [postId]: state.commentsByPost[postId].map((comment) =>
+          comment.id === commentId ? { ...comment, likes: (comment?.likes || 0) + 1 } : comment,
+        ),
       },
     })),
 
