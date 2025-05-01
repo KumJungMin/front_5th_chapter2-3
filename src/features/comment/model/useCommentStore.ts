@@ -10,7 +10,7 @@ interface CommentStore {
   updateComment: (postId: number, updated: Comment) => void
   deleteComment: (postId: number, commentId: number) => void
 
-  selectComment: (comment: Comment | null) => void
+  setSelectedComment: (comment: Comment | null) => void
 }
 
 export const useCommentStore = create<CommentStore>((set) => ({
@@ -46,5 +46,5 @@ export const useCommentStore = create<CommentStore>((set) => ({
       },
     })),
 
-  selectComment: (comment) => set({ selectedComment: comment }),
+  setSelectedComment: (comment) => set({ selectedComment: comment }),
 }))
