@@ -10,7 +10,7 @@ import type { Option } from "@/shared/ui/SelectBox"
 export const useToolbarLogic = () => {
   const { tags } = useTagsQuery()
   const { updateURL } = useQueryNavigate()
-  const { searchPosts, filterPosts } = usePostsData()
+  const { searchPosts } = usePostsData()
   const { skip, limit, search, tag, sortBy, sortOrder, set: setFilter } = usePostTableStore()
 
   const tagOptions: Option[] = [{ label: "모든 태그", value: "all" }].concat(
@@ -26,7 +26,6 @@ export const useToolbarLogic = () => {
       sortBy,
       sortOrder,
     })
-    filterPosts()
   }, [skip, limit, sortBy, sortOrder, tag, search])
 
   const handleSearchChange = (value: string) => {
@@ -49,7 +48,6 @@ export const useToolbarLogic = () => {
     if (e.key !== "Enter") return
 
     searchPosts()
-    // triggerSearch()
   }
 
   return {
