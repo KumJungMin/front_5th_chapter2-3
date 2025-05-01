@@ -6,8 +6,17 @@ import { HighlightText } from "@/shared/ui/HighlightText"
 import { usePostTableLogic } from "../model/usePostTableLogic"
 
 export const PostTable = () => {
-  const { handleTagClick, handleOpenDetail, handleOpenEdit, handleDeletePost, search, posts, isLoading, selectedTag } =
-    usePostTableLogic()
+  const {
+    handleTagClick,
+    handleOpenDetail,
+    handleOpenEdit,
+    handleDeletePost,
+    handleOpenUser,
+    search,
+    posts,
+    isLoading,
+    selectedTag,
+  } = usePostTableLogic()
 
   if (isLoading) return <p className="p-4 text-center">로딩…</p>
 
@@ -33,7 +42,7 @@ export const PostTable = () => {
               </div>
             </TableCell>
             <TableCell>
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-2" onClick={() => handleOpenUser(post.author)}>
                 <img src={post.author?.image} alt={post.author?.username} className="w-8 h-8 rounded-full" />
                 <span>{post.author?.username}</span>
               </div>
