@@ -1,4 +1,4 @@
-import type { User } from "@/entities/user/model/type"
+import type { User } from "@/entities/user/model/types"
 
 export const fetchUsers = async (): Promise<User[]> => {
   const res = await fetch("/api/users?limit=0&select=username,image")
