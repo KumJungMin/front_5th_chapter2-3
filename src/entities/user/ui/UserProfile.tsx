@@ -1,9 +1,10 @@
-// 사용자 정보를 띄우는 읽기 전용 컴포넌트
-// entity + ui: 읽기 전용 프레젠테이셔널 컴포넌트
+import type { User } from "@/entities/user/model/types"
 
-import type { User } from "@/entities/user/model/type"
+interface UserProfileProps {
+  user?: User
+}
 
-export const UserProfile = ({ user }: { user: User }) => {
+export const UserProfile = ({ user }: UserProfileProps) => {
   return (
     <div className="space-y-4">
       <img src={user?.image} alt={user?.username} className="w-24 h-24 rounded-full mx-auto" />
