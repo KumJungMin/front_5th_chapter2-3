@@ -41,7 +41,9 @@ export const AddPostDialog = (props: AddPostDialogProps) => {
             value={userId}
             onChange={(e) => setUserId(Number(e.target.value))}
           />
-          <Button onClick={handleSubmit}>게시물 추가</Button>
+          <Button onClick={handleSubmit} aria-label="게시물 추가">
+            게시물 추가
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
