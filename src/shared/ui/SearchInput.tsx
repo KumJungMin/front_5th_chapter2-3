@@ -16,20 +16,10 @@ const SearchInput = (props: SearchInputProps) => {
     onChange(query)
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    onKeyPress(e)
-  }
-
   return (
     <div className="relative">
       <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-      <Input
-        placeholder={placeholder}
-        className="pl-8"
-        value={value}
-        onChange={handleChange}
-        onKeyPress={handleKeyPress}
-      />
+      <Input placeholder={placeholder} className="pl-8" value={value} onChange={handleChange} onKeyPress={onKeyPress} />
     </div>
   )
 }
