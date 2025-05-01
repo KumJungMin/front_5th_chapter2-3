@@ -14,6 +14,18 @@ export const AddPostDialog = (props: AddPostDialogProps) => {
   const [title, setTitle] = useState("")
   const [body, setBody] = useState("")
 
+  const handleSubmit = () => {
+    if (!title || !body) alert("제목과 내용을 입력해주세요.")
+    else if (!userId) alert("사용자 ID를 입력해주세요.")
+    else {
+      onSubmit({ title, body, userId })
+      setTitle("")
+      setBody("")
+      setUserId(1)
+      onOpenChange(false)
+    }
+  }
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -29,7 +41,7 @@ export const AddPostDialog = (props: AddPostDialogProps) => {
             value={userId}
             onChange={(e) => setUserId(Number(e.target.value))}
           />
-          <Button onClick={() => onSubmit({ title, body, userId })}>게시물 추가</Button>
+          <Button onClick={handleSubmit}>게시물 추가</Button>
         </div>
       </DialogContent>
     </Dialog>
