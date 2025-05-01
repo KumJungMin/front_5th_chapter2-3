@@ -1,13 +1,6 @@
-export interface DeletePostParams {
-  id: Post["id"]
-}
+import type { Post } from "@/entities/post/model/types"
 
-// !! post 대한 타입을 끌어와야함!
-type Post = {
-  id: string
-}
-
-export const deletePost = async (id: DeletePostParams) => {
+export const deletePost = async (id: Post["id"]) => {
   const response = await fetch(`/api/posts/${id}`, {
     method: "DELETE",
   })

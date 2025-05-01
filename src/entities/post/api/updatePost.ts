@@ -1,11 +1,6 @@
-export interface UpdatePostParams {
-  newPost: Post
-}
+import type { Post } from "@/entities/post/model/types"
 
-// !! post 대한 타입을 끌어와야함!
-type Post = {}
-
-export const updatePost = async (post: UpdatePostParams): Promise<{ post: Post }> => {
+export const updatePost = async (post: Post): Promise<{ post: Post }> => {
   const response = await fetch(`/api/posts/${post.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

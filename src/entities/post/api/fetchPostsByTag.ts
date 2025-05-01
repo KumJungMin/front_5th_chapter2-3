@@ -1,6 +1,7 @@
 import type { Post } from "@/entities/post/model/types"
+import type { Tag } from "@/entities/tag/model/types"
 
-export const fetchPostsByTag = async (tag: string): Promise<{ posts: Post[]; total: number }> => {
+export const fetchPostsByTag = async (tag: Tag): Promise<{ posts: Post[]; total: number }> => {
   const res = await fetch(`/api/posts/tag/${tag}`)
   if (!res.ok) throw new Error("Failed to fetch posts")
   return res.json()
