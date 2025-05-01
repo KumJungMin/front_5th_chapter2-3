@@ -23,6 +23,8 @@ export const useQueryNavigate = () => {
     if (params?.sortBy) newParams.set("sortBy", params.sortBy)
     if (params?.sortOrder) newParams.set("sortOrder", params.sortOrder)
     if (params?.selectedTag) newParams.set("tag", params.selectedTag)
+    if (params?.tag) newParams.set("tag", params.tag)
+    if (params?.search) newParams.set("search", params.search)
 
     navigate(`?${newParams.toString()}`)
   }

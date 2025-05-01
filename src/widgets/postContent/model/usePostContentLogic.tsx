@@ -5,15 +5,15 @@ import { usePostStore } from "@/features/posts/model/usePostStore"
 import { useQueryNavigate } from "@/shared/model/useQueryNavigate"
 
 import { useDialogStore } from "@/features/dialogs/model/useDialogStore"
-import { usePostsQuery } from "@/features/posts/api/usePostsQuery"
 import { useTagsQuery } from "@/features/tags/api/useTagsQuery"
+import { usePostsData } from "@/features/posts/model/usePostsData"
 
 export const usePostContentLogic = () => {
   const { skip, limit, set: setTable } = usePostTableStore()
-  const { posts, total, isLoading } = usePostsQuery({ skip, limit, tag: "" })
+  const { posts, total, isLoading } = usePostsData()
   const { tags } = useTagsQuery()
-  const { setPosts, setSelectedPost } = usePostStore()
 
+  const { setPosts, setSelectedPost } = usePostStore()
   const dialogStore = useDialogStore()
   const { updateURL } = useQueryNavigate()
 
@@ -25,6 +25,7 @@ export const usePostContentLogic = () => {
     setTable({ skip: v })
     updateURL({ skip: v, limit })
   }
+
   const handleLimit = (v: number) => {
     setTable({ limit: v })
     updateURL({ skip, limit: v })
@@ -34,10 +35,12 @@ export const usePostContentLogic = () => {
     setSelectedPost(post)
     dialogStore.toggle("postDetail", true)
   }
+
   const handleOpenEdit = (post) => {
     setSelectedPost(post)
     dialogStore.toggle("editPost", true)
   }
+
   return {
     skip,
     limit,

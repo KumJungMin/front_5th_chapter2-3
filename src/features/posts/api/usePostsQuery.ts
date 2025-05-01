@@ -3,27 +3,30 @@ import { useQueries } from "@tanstack/react-query"
 import { fetchPosts, fetchPostsByTag } from "@/entities/post/api"
 import { fetchUsers } from "@/entities/user/api/fetchUsers"
 
-import { Post } from "@/entities/post/model/types"
-import { User } from "@/entities/user/model/types"
+import type { Post } from "@/entities/post/model/types"
+import type { User } from "@/entities/user/model/types"
 
 interface Params {
   skip: number
   limit: number
   tag?: string
+  sortBy?: string
+  sortOrder?: string
 }
 
-export const usePostsQuery = ({ skip, limit, tag }: Params) => {
+export const usePostsQuery = ({ skip, limit, tag, sortBy, sortOrder }: Params) => {
   const [postResponse, userResponse] = useQueries({
     queries: [
       {
-        queryKey: ["posts", { skip, limit, tag }],
-        queryFn: () => {
-          if (tag)
-            return fetchPostsByTag(tag) // !! 여기 체크!
-          else return fetchPosts({ skip, limit })
-        },
+        queryKey: ["posts", { skip, limit, tag, sortBy, sortOrder }],
+        queryFn: () => (tag ? fetchPostsByTag(tag) : fetchPosts({ skip, limit })),
+        gcTime: 0,
       },
-      { queryKey: ["users"], queryFn: fetchUsers },
+      {
+        queryKey: ["users"],
+        queryFn: fetchUsers,
+        gcTime: 0,
+      },
     ],
   })
 
@@ -38,5 +41,8 @@ export const usePostsQuery = ({ skip, limit, tag }: Params) => {
     total: postResponse.data?.total ?? 0,
     isLoading: postResponse.isLoading || userResponse.isLoading,
     isError: postResponse.isError || userResponse.isError,
+    refetchAll: async () => {
+      await Promise.all([postResponse.refetch(), userResponse.refetch()])
+    },
   }
 }

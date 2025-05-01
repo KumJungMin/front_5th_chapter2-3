@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react"
+
 import { usePostTableStore } from "./usePostTableStore"
 import { useDialogStore } from "@/features/dialogs/model/useDialogStore"
-import { useQueryNavigate } from "@/shared/model/useQueryNavigate"
-import { usePostsQuery } from "../api/usePostsQuery"
+import { usePostsData } from "@/features/posts/model/usePostsData"
 import { useDeletePost } from "@/features/posts/api/useDeletePost"
 import { usePostStore } from "@/features/posts/model/usePostStore"
 import { useUserStore } from "@/features/user/model/useUserStore"
@@ -11,19 +11,30 @@ import { useCommentsQuery } from "@/features/comment/api/useCommentsQuery"
 import { useCommentStore } from "@/features/comment/model/useCommentStore"
 
 export const usePostTableLogic = () => {
-  const { skip, limit, tag: selectedTag, sortBy, sortOrder, search, set: setFilter } = usePostTableStore()
-  const { posts, deletePost: removeFromStore, setSelectedPost, selectedPost, setPosts } = usePostStore()
+  const { tag: selectedTag, search, set: setFilter } = usePostTableStore()
+
+  const { posts, setSelectedPost, selectedPost, setPosts, deletePost: removeFromStore } = usePostStore()
   const { setComments } = useCommentStore()
+  const { setSelectedUser } = useUserStore()
 
   const [userId, setUserId] = useState<string | null>(null)
 
-  const { setSelectedUser } = useUserStore()
   const { data: user } = useUserQuery(userId)
-  const { toggle } = useDialogStore()
-  const { updateURL } = useQueryNavigate()
-  const { isLoading } = usePostsQuery({ skip, limit, tag: selectedTag })
-  const { mutate: deletePostMutate } = useDeletePost()
   const { data: comments } = useCommentsQuery(selectedPost?.id)
+
+  const { posts: fetchedPosts, isLoading } = usePostsData()
+  const { mutate: deletePostMutate } = useDeletePost()
+  const { toggle } = useDialogStore()
+
+  useEffect(() => {
+    if (!isLoading) setPosts(fetchedPosts)
+  }, [isLoading])
+
+  useEffect(() => {
+    if (comments?.comments && selectedPost?.id) {
+      setComments(selectedPost.id, comments.comments)
+    }
+  }, [comments, selectedPost?.id])
 
   useEffect(() => {
     if (user) {
@@ -32,22 +43,8 @@ export const usePostTableLogic = () => {
     }
   }, [user])
 
-  useEffect(() => {
-    if (comments?.comments && selectedPost?.id) {
-      setComments(selectedPost.id, comments.comments)
-    }
-  }, [comments, selectedPost?.id])
-
   const handleTagClick = (tag: string) => {
     setFilter({ tag })
-    updateURL({
-      skip,
-      limit,
-      selectedTag: tag,
-      sortBy,
-      sortOrder,
-      searchQuery: search,
-    })
   }
 
   const handleOpenDetail = (post) => {
