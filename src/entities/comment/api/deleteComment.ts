@@ -1,9 +1,7 @@
 import type { Comment } from "@/entities/comment/model/types"
+import { axiosInstance } from "@/shared/lib/axios"
 
 export const deleteComment = async (id: Comment["id"]): Promise<Comment> => {
-  const response = await fetch(`/api/comments/${id}`, {
-    method: "DELETE",
-  })
-  if (!response.ok) throw new Error("Failed to delete comment")
-  return response.json()
+  const response = await axiosInstance.delete<Comment>(`/comments/${id}`)
+  return response.data
 }

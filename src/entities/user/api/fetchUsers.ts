@@ -1,8 +1,9 @@
 import type { User } from "@/entities/user/model/types"
+import { axiosInstance } from "@/shared/lib/axios"
 
 export const fetchUsers = async (): Promise<User[]> => {
-  const res = await fetch("/api/users?limit=0&select=username,image")
-  if (!res.ok) throw new Error("Failed to fetch users")
-  const data = await res.json()
-  return data.users
+  const res = await axiosInstance.get("/users", {
+    params: { limit: 0, select: "username,image" },
+  })
+  return res.data.users
 }

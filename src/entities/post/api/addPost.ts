@@ -1,11 +1,11 @@
 import type { Post } from "@/entities/post/model/types"
+import axios from "axios"
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_PATH
 
 export const addPost = async (newPost: Post): Promise<{ post: Post }> => {
-  const res = await fetch("/api/posts/add", {
-    method: "POST",
+  const res = await axios.post(`${API_BASE_URL}/api/posts/add`, newPost, {
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(newPost),
   })
-  if (!res.ok) throw new Error("Failed to add post")
-  return res.json()
+  return res.data
 }

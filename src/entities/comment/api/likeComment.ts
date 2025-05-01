@@ -1,4 +1,5 @@
 import type { Comment } from "@/entities/comment/model/types"
+import { axiosInstance } from "@/shared/lib/axios"
 
 type LikeCommentParams = {
   id: Comment["id"]
@@ -6,10 +7,8 @@ type LikeCommentParams = {
 }
 
 export const likeComment = async ({ id, currentLikes }: LikeCommentParams): Promise<Comment> => {
-  const res = await fetch(`/api/comments/${id}`, {
-    method: "PATCH",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ likes: currentLikes + 1 }),
+  const { data } = await axiosInstance.patch<Comment>(`/comments/${id}`, {
+    likes: currentLikes + 1,
   })
-  return res.json()
+  return data
 }
