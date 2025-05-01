@@ -1,7 +1,7 @@
 import { Plus } from "lucide-react"
 import { Card, CardHeader, CardTitle, Button } from "@/shared/ui"
 
-import { DialogContainer } from "@/widgets/ui/DialogContainer"
+import { DialogContainer } from "@/widgets/dialogContainer/ui/DialogContainer"
 import { PostContent } from "@/widgets/ui/PostContent"
 
 import { useDialogStore } from "@/features/dialogs/model/useDialogStore"
