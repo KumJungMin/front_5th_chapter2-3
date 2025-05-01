@@ -1,11 +1,6 @@
-export interface UpdateCommentParams {
-  newPost: Comment
-}
+import type { Comment } from "@/entities/comment/model/types"
 
-// !! post 대한 타입을 끌어와야함!
-type Comment = {}
-
-export const updateComment = async (comment: UpdateCommentParams): Promise<{ comments: Comment[] }> => {
+export const updateComment = async (comment: Comment): Promise<{ comments: Comment[] }> => {
   const response = await fetch(`/api/comments/${comment.id}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json" },

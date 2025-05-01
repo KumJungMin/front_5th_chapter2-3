@@ -1,13 +1,6 @@
-export interface DeleteCommentParams {
-  id: Comment["id"]
-}
+import type { Comment } from "@/entities/comment/model/types"
 
-// !! Comment 대한 타입을 끌어와야함!
-type Comment = {
-  id: string
-}
-
-export const deleteComment = async (id: DeleteCommentParams) => {
+export const deleteComment = async ({ id }: { id: Comment["id"] }): Promise<Comment> => {
   const response = await fetch(`/api/comments/${id}`, {
     method: "DELETE",
   })
