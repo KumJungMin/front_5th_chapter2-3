@@ -1,19 +1,14 @@
 import { useEffect } from "react"
-import { CardContent } from "@/shared/ui"
 
 import { usePostTableStore } from "@/features/posts/model/usePostTableStore"
 import { usePostStore } from "@/features/posts/model/usePostStore"
 import { useQueryNavigate } from "@/shared/model/useQueryNavigate"
 
-import { Toolbar } from "@/features/posts/ui/Toolbar"
-import { PostTable } from "@/features/posts/ui/PostTable"
-import { Pagination } from "@/features/posts/ui/Pagination"
-
 import { useDialogStore } from "@/features/dialogs/model/useDialogStore"
 import { usePostsQuery } from "@/features/posts/api/usePostsQuery"
 import { useTagsQuery } from "@/features/tags/api/useTagsQuery"
 
-export function PostContent() {
+export const usePostContentLogic = () => {
   const { skip, limit, set: setTable } = usePostTableStore()
   const { posts, total, isLoading } = usePostsQuery({ skip, limit, tag: "" })
   const { tags } = useTagsQuery()
@@ -43,16 +38,16 @@ export function PostContent() {
     setSelectedPost(post)
     dialogStore.toggle("editPost", true)
   }
-
-  return (
-    <CardContent className="space-y-4">
-      <Toolbar tags={tags} />
-      {isLoading ? (
-        <p className="p-4 text-center">로딩 중…</p>
-      ) : (
-        <PostTable posts={posts} onOpenDetail={handleOpenDetail} onEdit={handleOpenEdit} />
-      )}
-      <Pagination total={total} skip={skip} limit={limit} onSkip={handleSkip} onLimit={handleLimit} />
-    </CardContent>
-  )
+  return {
+    skip,
+    limit,
+    posts,
+    total,
+    isLoading,
+    tags,
+    handleSkip,
+    handleLimit,
+    handleOpenDetail,
+    handleOpenEdit,
+  }
 }
