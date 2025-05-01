@@ -34,6 +34,7 @@ export const Toolbar = () => {
     <div className="flex gap-4">
       <div className="flex-1">
         <SearchInput
+          ariaLabel="게시물 검색"
           placeholder="게시물 검색…"
           value={search}
           onChange={handleSearchChange}
