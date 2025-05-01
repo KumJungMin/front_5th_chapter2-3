@@ -1,13 +1,8 @@
-export interface FetchPostsParams {
+import type { Post } from "@/entities/post/model/types"
+
+interface FetchPostsParams {
   limit?: number
   skip?: number
-}
-
-export interface Post {
-  id: number
-  userId: number
-  title: string
-  body: string
 }
 
 export const fetchPosts = async ({
